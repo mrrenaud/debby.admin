@@ -1,0 +1,18 @@
+﻿@model Debby.Admin.ViewModels.ListViewModel
+
+@{
+    // ViewBag.Title = "Home Page";
+    Layout = "~/Views/DebbyAdmin/_Layout.cshtml";
+}
+
+
+<div class="col-lg-3">
+    @Component.Invoke("EntityNavigation")
+</div>
+
+<div class="col-lg-9">
+    <ol class="breadcrumb">
+        <li><a href="~/debbyadmin/">Dashboard</a></li>
+        <li><a href="" class="active">@Model.Entity.Name</a></li>
+    </ol>
+</div>

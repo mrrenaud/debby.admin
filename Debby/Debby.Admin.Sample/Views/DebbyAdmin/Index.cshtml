@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/DebbyAdmin/_Layout.cshtml";
+}
+
+<div class="col-lg-3">
+    @Component.Invoke("EntityNavigation")
+</div>
+
+<div class="col-lg-9">
+    <ol class="breadcrumb">
+        <li><a href="" class="active">Dashboard</a></li>
+    </ol>
+
+    <div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="model-name">Model Name</th>
+                    <th class="last-used">Last used</th>
+                    <th class="records">Records</th>
+                    <th class="shrink controls"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var entity in Model.Entities)
+                    {
+                        <tr>
+                            <td>
+                                <span>
+                                    <a href="~/debbyadmin/">
+                                        @entity.Name
+                                    </a>
+                                </span>
+                            </td>
+                            <td></td>
+                            <td><span class="badge">0</span></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
