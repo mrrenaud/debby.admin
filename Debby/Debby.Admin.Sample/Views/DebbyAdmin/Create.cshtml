@@ -6,7 +6,7 @@
 }
 
 <div class="col-lg-3">
-    @Component.Invoke("EntityNavigation")
+    @Component.Invoke("EntityNavigation", Model.Entity.Name)
 </div>
 
 <div class="col-lg-9">
@@ -21,4 +21,13 @@
         <li role="presentation" class="active"><a href="">Create</a></li>
         <li role="presentation"><a href="#">Blabla</a></li>
     </ul>
+
+    <div class="properties">
+        @foreach (var prop in Model.Properties)
+        {
+            <div class="row item">
+                @Component.Invoke("InputField", prop)
+            </div>
+        }
+    </div>
 </div>

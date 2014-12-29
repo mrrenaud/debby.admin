@@ -6,12 +6,14 @@ namespace Debby.Admin.ViewComponents
 {
     public class EntityNavigationViewComponent : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string entityName = "")
         {
-            var viewModel = new IndexViewModel();
+            var viewModel = new EntityNavigationViewModel();
 
             foreach (var entity in DebbyAdmin.Entities)
                 viewModel.Entities.Add(entity);
+
+            viewModel.CurrentEntityName = entityName;
 
             return View(viewModel);
         }

@@ -36,3 +36,12 @@ textarea {
     color: #31708f;
     background-color: #d9edf7;
 }
+
+.properties {
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+    .properties .item {
+        margin-bottom: 6px;
+    }

@@ -1,9 +1,6 @@
-﻿using Debby.Admin.Services;
-using Debby.Admin.Services.Interfaces;
+﻿using Debby.Admin.Services.Interfaces;
 using Debby.Admin.ViewModels;
 using Microsoft.AspNet.Mvc;
-using Microsoft.Data.Entity;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -53,8 +50,7 @@ namespace Debby.Admin.Controllers
             if (entity == null)
                 return View("notfound");
 
-            var createViewModel = new CreateViewModel();
-            createViewModel.Entity = entity;
+            var createViewModel = new CreateViewModel(entity);
 
             return View("Create", createViewModel);
         }

@@ -6,7 +6,7 @@
 }
 
 <div class="col-lg-3">
-    @Component.Invoke("EntityNavigation")
+    @Component.Invoke("EntityNavigation", Model.Entity.Name)
 </div>
 
 <div class="col-lg-9">
@@ -17,7 +17,7 @@
 
     <ul class="nav nav-tabs">
         <li role="presentation" class="active"><a href="">List</a></li>
-        <li role="presentation"><a href="./create">Create</a></li>
+        <li role="presentation"><a href="~/debbyadmin/@Model.Entity.Name/create">Create</a></li>
         <li role="presentation"><a href="#">Blabla</a></li>
     </ul>
 
