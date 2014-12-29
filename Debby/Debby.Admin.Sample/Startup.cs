@@ -8,9 +8,9 @@ using Microsoft.AspNet.Routing;
 using Microsoft.Framework.ConfigurationModel;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
-using Microsoft.Framework.Logging.Console;
 using Debby.Admin.Sample.Models;
 using Debby.Admin.Sample.Models.Northwind;
+using Microsoft.Framework.Logging.Console;
 
 namespace Debby.Admin.Sample
 {
@@ -24,12 +24,12 @@ namespace Debby.Admin.Sample
                 .AddEnvironmentVariables();
         }
 
-        public IConfiguration Configuration { get; set; }
+        public static IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add EF services to the services container.
+            //Add EF services to the services container.
             services.AddEntityFramework(Configuration)
                 .AddSqlServer()
                 .AddDbContext<ApplicationDbContext>();
@@ -39,11 +39,11 @@ namespace Debby.Admin.Sample
 
             // Add MVC services to the services container.
             services.AddMvc();
+            services.AddDebby<ApplicationDbContext>();
 
             // Uncomment the following line to add Web API servcies which makes it easier to port Web API 2 controllers.
             // You need to add Microsoft.AspNet.Mvc.WebApiCompatShim package to project.json
             // services.AddWebApiConventions();
-
         }
 
         // Configure is called after ConfigureServices is called.

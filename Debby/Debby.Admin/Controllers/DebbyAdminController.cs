@@ -1,13 +1,23 @@
 ﻿using Debby.Admin.Services;
+using Debby.Admin.Services.Interfaces;
 using Debby.Admin.ViewModels;
 using Microsoft.AspNet.Mvc;
+using Microsoft.Data.Entity;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Debby.Admin.Controllers
 {
     public class DebbyAdminController : Controller
     {
+        private IEntityService entityService;
+
+        public DebbyAdminController(IEntityService entityService)
+        {
+            this.entityService = entityService;
+        }
+
         public ViewResult Index()
         {
             var viewModel = new IndexViewModel();
@@ -18,14 +28,14 @@ namespace Debby.Admin.Controllers
             return View(viewModel);
         }
 
-        public ViewResult List(string entityName)
+        public async Task<ViewResult> List(string entityName)
         {
             var entity = DebbyAdmin.Entities.FirstOrDefault(e => string.Compare(e.Name, entityName, true) == 0);
 
             if (entity == null)
                 return View("notfound");
 
-            var pagedRecords = new EntityService().GetRecords(entity, 1, 20);
+            var pagedRecords = await entityService.GetRecords(entity, 1, 20);
 
             var listViewModel = new ListViewModel()
             {
@@ -34,6 +44,19 @@ namespace Debby.Admin.Controllers
             };
 
             return View("List", listViewModel);
+        }
+
+        public ViewResult Create(string entityName)
+        {
+            var entity = DebbyAdmin.Entities.FirstOrDefault(e => string.Compare(e.Name, entityName, true) == 0);
+
+            if (entity == null)
+                return View("notfound");
+
+            var createViewModel = new CreateViewModel();
+            createViewModel.Entity = entity;
+
+            return View("Create", createViewModel);
         }
     }
 }

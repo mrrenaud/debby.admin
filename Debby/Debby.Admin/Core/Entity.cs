@@ -7,7 +7,10 @@ namespace Debby.Admin.Core
 {
     public class Entity
     {
-        private Type Type;
+        public Type Type { get; private set; }
+
+        public string Name { get; private set; }
+        public List<Property> Properties { get; private set; }
 
         public Entity(Type type)
         {
@@ -16,8 +19,5 @@ namespace Debby.Admin.Core
 
             Properties = type.GetProperties().Select(x => new Property(this, x)).ToList();
         }
-
-        public string Name { get; private set; }
-        public List<Property> Properties { get; private set; }
     }
 }

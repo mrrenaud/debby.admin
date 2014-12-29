@@ -6,7 +6,7 @@ namespace Debby.Admin.Sample.Models.Northwind
     public class OrderDetail
     {
         [Key]
-        public int OrderDetailsID { get; set; }
+        public int OrderDetailId { get; set; }
 
         [ForeignKey("Order")]
         public int OrderID { get; set; }

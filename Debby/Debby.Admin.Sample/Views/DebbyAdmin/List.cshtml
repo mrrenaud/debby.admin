@@ -5,7 +5,6 @@
     Layout = "~/Views/DebbyAdmin/_Layout.cshtml";
 }
 
-
 <div class="col-lg-3">
     @Component.Invoke("EntityNavigation")
 </div>
@@ -15,4 +14,40 @@
         <li><a href="~/debbyadmin/">Dashboard</a></li>
         <li><a href="" class="active">@Model.Entity.Name</a></li>
     </ol>
+
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="">List</a></li>
+        <li role="presentation"><a href="./create">Create</a></li>
+        <li role="presentation"><a href="#">Blabla</a></li>
+    </ul>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="model-name">Model Name</th>
+                <th class="last-used">Last used</th>
+                <th class="records">Records</th>
+                <th class="shrink controls"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var entity in Model.Records.Data)
+                {
+                    <tr>
+                        <td>
+                            <span>
+                                <a href="~/debbyadmin/">
+                                    @*@entity.Name*@
+                                    coucou
+                                </a>
+                            </span>
+                        </td>
+                        <td></td>
+                        <td><span class="badge">0</span></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
 </div>

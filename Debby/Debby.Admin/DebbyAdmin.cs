@@ -1,16 +1,17 @@
 ﻿using Debby.Admin.Core;
+using Debby.Admin.Services;
+using Debby.Admin.Services.Interfaces;
 using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.FileSystems;
-using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Internal;
 using Microsoft.AspNet.Mvc.Routing;
 using Microsoft.AspNet.Routing;
-using Microsoft.AspNet.StaticFiles;
+using Microsoft.Data.Entity;
+using Microsoft.Framework.ConfigurationModel;
+using Microsoft.Framework.DependencyInjection;
+using Microsoft.Framework.DependencyInjection.Fallback;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace Debby.Admin
 {
@@ -67,6 +68,19 @@ namespace Debby.Admin
         }
     }
 
+    public static class MvcServiceCollectionExtensions
+    {
+        public static IServiceCollection AddDebby<TContext>(this IServiceCollection services,
+            IConfiguration configuration = null)
+            where TContext : DbContext
+        {
+            //Add EF services to the services container.
+            services.AddSingleton<IEntityService, EntityService<TContext>>();
+
+            return services;
+        }
+    }
+
     public class DebbyAdmin
     {
         public static IList<Entity> Entities { get; set; }
@@ -83,6 +97,8 @@ namespace Debby.Admin
 
             return entity;
         }
+
+
 
         public static void RegisterRoutes(IRouteBuilder routes, string prefix = "DebbyAdmin")
         {

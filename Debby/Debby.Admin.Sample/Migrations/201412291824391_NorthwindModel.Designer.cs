@@ -1,4 +1,4 @@
-﻿using Debby.Admin.Sample.Models;
+using Debby.Admin.Sample.Models;
 using Debby.Admin.Sample.Models.Northwind;
 using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Metadata;
@@ -8,9 +8,25 @@ using System;
 namespace Debby.Admin.Sample.Migrations
 {
     [ContextType(typeof(ApplicationDbContext))]
-    public class ApplicationDbContextModelSnapshot : ModelSnapshot
+    public partial class NorthwindModel : IMigrationMetadata
     {
-        public override IModel Model
+        string IMigrationMetadata.MigrationId
+        {
+            get
+            {
+                return "201412291824391_NorthwindModel";
+            }
+        }
+
+        string IMigrationMetadata.ProductVersion
+        {
+            get
+            {
+                return "7.0.0-beta1-11518";
+            }
+        }
+
+        IModel IMigrationMetadata.TargetModel
         {
             get
             {
@@ -94,7 +110,7 @@ namespace Debby.Admin.Sample.Migrations
 
                 builder.Entity("Debby.Admin.Sample.Models.Northwind.Order", b =>
                     {
-                        b.Property<Nullable<decimal>>("Freight");
+                        b.Property<Nullable<short>>("Freight");
                         b.Property<Nullable<DateTime>>("OrderDate");
                         b.Property<int>("OrderID")
                             .GenerateValuesOnAdd();
@@ -116,7 +132,7 @@ namespace Debby.Admin.Sample.Migrations
                             .GenerateValuesOnAdd();
                         b.Property<int>("OrderID");
                         b.Property<int>("ProductID");
-                        b.Property<short>("Quantity");
+                        b.Property<decimal>("Quantity");
                         b.Property<decimal>("UnitPrice");
                         b.Key("OrderDetailId");
                     });

@@ -1,7 +1,7 @@
 ﻿{
     "Data": {
-        "DefaultConnection": { 
-            "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=aspnet5-Debby.Admin.Sample-41aefbac-2d1e-4836-a3c7-f937569aa816;Trusted_Connection=True;MultipleActiveResultSets=true"
+        "DefaultConnection": {
+            "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=aspnet5-Debby.Admin.Sample-41aefbac-2d1e-4836-a3c7-f937569aa817;Trusted_Connection=True;MultipleActiveResultSets=true"
         }
     },
     "EntityFramework": {
