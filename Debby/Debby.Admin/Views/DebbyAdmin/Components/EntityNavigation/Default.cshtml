@@ -1,0 +1,22 @@
+﻿@model Debby.Admin.ViewModels.EntityNavigationViewModel
+@{
+// ViewBag.Title = "Home Page";
+}
+
+@using Debby.Admin.Helpers;
+
+<div class="list-group">
+    <span href="#" class="list-group-item list-group-item-info">
+        <p class="list-group-item-heading">Navigation</p>
+    </span>
+    @{
+        foreach (var entity in Model.Entities)
+        {
+
+            <a href="~/debbyadmin/@entity.Name"
+               class="list-group-item @HtmlClassHelper.IsActive(entity.Name, Model.CurrentEntityName)">
+                @entity.Name
+            </a>
+        }
+    }
+</div>
