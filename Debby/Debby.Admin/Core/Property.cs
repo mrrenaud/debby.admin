@@ -1,24 +1,25 @@
-﻿using System;
-using System.Reflection;
+﻿using Debby.Admin.Core.Model.Interfaces;
+using System;
 
 namespace Debby.Admin.Core
 {
-    public class Property
+    public class Property : IProperty
     {
-        private Entity entity;
-        private PropertyInfo property;
+        private IEntityType entity;
 
-        public Property(Entity entity, PropertyInfo property)
+        public string Name { get; private set; }
+        public Type PropertyType { get; private set; }
+        public bool IsNullable { get; internal set; }
+        public bool IsReadOnly { get; internal set; }
+
+        public Property(IEntityType entity, string name, Type propertyType)
         {
             this.entity = entity;
-            this.property = property;
-
-
-            Name = property.Name;
-            PropertyType = property.PropertyType;
+            this.Name = name;
+            this.PropertyType = propertyType;
         }
 
-        internal string GetFieldType()
+        public string GetFieldType()
         {
             var field = FieldTypes.TextBox;
             if (PropertyType == typeof(string))
@@ -28,8 +29,5 @@ namespace Debby.Admin.Core
 
             return Enum.GetName(typeof(FieldTypes), field);
         }
-
-        public string Name { get; private set; }
-        public Type PropertyType { get; private set; }
     }
 }

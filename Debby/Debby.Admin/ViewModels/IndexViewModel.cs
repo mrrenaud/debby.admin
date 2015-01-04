@@ -1,16 +1,15 @@
-﻿using Debby.Admin.Core;
-using System;
+﻿using Debby.Admin.Core.Model.Interfaces;
 using System.Collections.Generic;
 
 namespace Debby.Admin.ViewModels
 {
     public class IndexViewModel
     {
-        public IList<Entity> Entities { get; set; }
+        public IList<IEntityType> Entities { get; set; }
 
         public IndexViewModel()
         {
-            Entities = new List<Entity>();
+            Entities = new List<IEntityType>();
         }
     }
 }

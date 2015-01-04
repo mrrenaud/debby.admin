@@ -20,18 +20,14 @@ namespace Debby.Admin.Controllers
             var viewModel = new IndexViewModel();
 
             foreach (var entity in DebbyAdmin.Entities)
-                viewModel.Entities.Add(entity);
+                viewModel.Entities.Add(entityService.GetEntity(entity.Name));
 
             return View(viewModel);
         }
 
         public async Task<ViewResult> List(string entityName)
         {
-            var entity = DebbyAdmin.Entities.FirstOrDefault(e => string.Compare(e.Name, entityName, true) == 0);
-
-            if (entity == null)
-                return View("notfound");
-
+            var entity = entityService.GetEntity(entityName);
             var pagedRecords = await entityService.GetRecords(entity, 1, 20);
 
             var listViewModel = new ListViewModel()
@@ -45,7 +41,7 @@ namespace Debby.Admin.Controllers
 
         public ViewResult Create(string entityName)
         {
-            var entity = DebbyAdmin.Entities.FirstOrDefault(e => string.Compare(e.Name, entityName, true) == 0);
+            var entity = entityService.GetEntity(entityName);
 
             if (entity == null)
                 return View("notfound");

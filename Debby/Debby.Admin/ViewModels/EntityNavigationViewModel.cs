@@ -1,4 +1,5 @@
 ﻿using Debby.Admin.Core;
+using Debby.Admin.Core.Model.Interfaces;
 using System;
 using System.Collections.Generic;
 
@@ -6,11 +7,11 @@ namespace Debby.Admin.ViewModels
 {
     public class EntityNavigationViewModel
     {
-        public IList<Entity> Entities { get; set; }
+        public IList<IEntityType> Entities { get; set; }
 
         public EntityNavigationViewModel()
         {
-            Entities = new List<Entity>();
+            Entities = new List<IEntityType>();
         }
 
         public string CurrentEntityName { get; set; }

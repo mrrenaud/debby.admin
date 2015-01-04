@@ -1,4 +1,6 @@
 ﻿using Debby.Admin.Core;
+using Debby.Admin.Core.Model;
+using Debby.Admin.Core.Model.Interfaces;
 using Debby.Admin.Services;
 using Debby.Admin.Services.Interfaces;
 using Microsoft.AspNet.Builder;
@@ -9,7 +11,6 @@ using Microsoft.AspNet.Routing;
 using Microsoft.Data.Entity;
 using Microsoft.Framework.ConfigurationModel;
 using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.DependencyInjection.Fallback;
 using System;
 using System.Collections.Generic;
 
@@ -63,42 +64,50 @@ namespace Debby.Admin
 
             configureRoutes(routes, prefix);
 
-
             return app.UseRouter(routes.Build());
         }
     }
 
     public static class MvcServiceCollectionExtensions
     {
-        public static IServiceCollection AddDebby<TContext>(this IServiceCollection services,
+        public static IServiceCollection AddDebby
+            <TContext,
+            TModelConnector>(
+            this IServiceCollection services,
             IConfiguration configuration = null)
             where TContext : DbContext
+            where TModelConnector : IModelConnector
         {
             //Add EF services to the services container.
             services.AddSingleton<IEntityService, EntityService<TContext>>();
+            services.AddSingleton<IModelConnector, TModelConnector>();
 
             return services;
         }
+
+        public static IServiceCollection AddDebby
+        <TContext>(
+        this IServiceCollection services,
+        IConfiguration configuration = null)
+        where TContext : DbContext
+        {
+            return services.AddDebby<TContext, DefaultModelConnector>(configuration);
+        }
     }
 
-    public class DebbyAdmin
+    public static class DebbyAdmin
     {
-        public static IList<Entity> Entities { get; set; }
+        public static IList<Type> Entities { get; set; }
 
         static DebbyAdmin()
         {
-            Entities = new List<Entity>();
+            Entities = new List<Type>();
         }
 
-        public static Entity AddEntity<TEntity>()
+        public static void AddEntity<TEntity>()
         {
-            var entity = new Entity(typeof(TEntity));
-            Entities.Add(entity);
-
-            return entity;
+            Entities.Add(typeof(TEntity));
         }
-
-
 
         public static void RegisterRoutes(IRouteBuilder routes, string prefix = "DebbyAdmin")
         {
