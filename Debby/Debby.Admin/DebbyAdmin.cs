@@ -1,5 +1,4 @@
-﻿using Debby.Admin.Core;
-using Debby.Admin.Core.Model;
+﻿using Debby.Admin.Core.Model;
 using Debby.Admin.Core.Model.Interfaces;
 using Debby.Admin.Services;
 using Debby.Admin.Services.Interfaces;
@@ -8,7 +7,6 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Internal;
 using Microsoft.AspNet.Mvc.Routing;
 using Microsoft.AspNet.Routing;
-using Microsoft.Data.Entity;
 using Microsoft.Framework.ConfigurationModel;
 using Microsoft.Framework.DependencyInjection;
 using System;
@@ -71,27 +69,23 @@ namespace Debby.Admin
     public static class MvcServiceCollectionExtensions
     {
         public static IServiceCollection AddDebby
-            <TContext,
-            TModelConnector>(
+            <TModelConnector>(
             this IServiceCollection services,
             IConfiguration configuration = null)
-            where TContext : DbContext
             where TModelConnector : IModelConnector
         {
             //Add EF services to the services container.
-            services.AddSingleton<IEntityService, EntityService<TContext>>();
+            services.AddSingleton<IEntityService, EntityService>();
             services.AddSingleton<IModelConnector, TModelConnector>();
 
             return services;
         }
 
-        public static IServiceCollection AddDebby
-        <TContext>(
+        public static IServiceCollection AddDebby(
         this IServiceCollection services,
         IConfiguration configuration = null)
-        where TContext : DbContext
         {
-            return services.AddDebby<TContext, DefaultModelConnector>(configuration);
+            return services.AddDebby<DefaultModelConnector>(configuration);
         }
     }
 

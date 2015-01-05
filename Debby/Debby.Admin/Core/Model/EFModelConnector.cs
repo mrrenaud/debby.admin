@@ -1,16 +1,20 @@
 ﻿using Debby.Admin.Core.Model.Interfaces;
 using Microsoft.Data.Entity;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Debby.Admin.Core.Model
 {
     public class EFModelConnector<TContext> : IModelConnector where TContext : DbContext
     {
+        private TContext context;
         private Microsoft.Data.Entity.Metadata.IModel model;
 
         public EFModelConnector(TContext context)
         {
+            this.context = context;
             this.model = context.Model;
         }
 
@@ -37,6 +41,19 @@ namespace Debby.Admin.Core.Model
             }
 
             return entityType;
+        }
+
+
+        public async Task<IList<dynamic>> RetrieveRecords<T>() where T : class
+        {
+            var dbSet = context.Set<T>();
+            var entities = await dbSet.ToListAsync();
+
+            var data = new List<dynamic>();
+            foreach (var entity in entities)
+                data.Add(entity);
+
+            return data;
         }
     }
 }

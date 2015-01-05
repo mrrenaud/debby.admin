@@ -1,5 +1,7 @@
 ﻿using Debby.Admin.Core.Model.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Debby.Admin.Core.Model
 {
@@ -11,6 +13,11 @@ namespace Debby.Admin.Core.Model
         }
 
         public IEntityType GetEntityType(Type type)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IList<dynamic>> RetrieveRecords<T>() where T : class
         {
             throw new NotImplementedException();
         }

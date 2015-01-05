@@ -18,16 +18,5 @@ namespace Debby.Admin.Core
             this.Name = name;
             this.PropertyType = propertyType;
         }
-
-        public string GetFieldType()
-        {
-            var field = FieldTypes.TextBox;
-            if (PropertyType == typeof(string))
-            {
-                field = FieldTypes.TextBox;
-            }
-
-            return Enum.GetName(typeof(FieldTypes), field);
-        }
     }
 }
