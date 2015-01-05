@@ -13,6 +13,8 @@ using Debby.Admin.Sample.Models.Northwind;
 using Microsoft.Framework.Logging.Console;
 using Debby.Admin.Core.Model;
 using Debby.Admin;
+using Debby.Admin.Core.ModelConnectors;
+using Microsoft.AspNet.Mvc;
 
 namespace Debby.Admin.Sample
 {

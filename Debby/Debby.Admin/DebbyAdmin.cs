@@ -1,5 +1,8 @@
 ﻿using Debby.Admin.Core.Model;
 using Debby.Admin.Core.Model.Interfaces;
+using Debby.Admin.Core.ModelBinders;
+using Debby.Admin.Core.ModelConnectors;
+using Debby.Admin.Core.ModelConnectors.Interfaces;
 using Debby.Admin.Services;
 using Debby.Admin.Services.Interfaces;
 using Microsoft.AspNet.Builder;
@@ -50,6 +53,7 @@ namespace Debby.Admin
         {
             MvcServicesHelper.ThrowIfMvcNotRegistered(app.ApplicationServices);
 
+
             var routes = new RouteBuilder
             {
                 DefaultHandler = new MvcRouteHandler(),
@@ -77,6 +81,11 @@ namespace Debby.Admin
             //Add EF services to the services container.
             services.AddSingleton<IEntityService, EntityService>();
             services.AddSingleton<IModelConnector, TModelConnector>();
+
+            services.Configure<MvcOptions>(options =>
+            {
+                options.ModelBinders.Add(typeof(DynamicModelBinder));
+            });
 
             return services;
         }

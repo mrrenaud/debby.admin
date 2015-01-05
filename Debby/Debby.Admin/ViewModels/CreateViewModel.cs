@@ -2,6 +2,7 @@
 using Debby.Admin.Core.Model.Interfaces;
 using Microsoft.AspNet.Routing;
 using System.Collections.Generic;
+using System.Dynamic;
 
 namespace Debby.Admin.ViewModels
 {
@@ -33,5 +34,16 @@ namespace Debby.Admin.ViewModels
         public IEntityType Entity { get; internal set; }
         public List<PropertyViewModel> Properties { get; private set; }
         public RouteValueDictionary Values { get; set; }
+    }
+
+    public class PostCreateViewModel
+    {
+        public PostCreateViewModel()
+        {
+            Data = new ExpandoObject() as IDictionary<string, object>;
+        }
+
+        public string EntityName { get; set; }
+        public IDictionary<string, object> Data { get; set; }
     }
 }

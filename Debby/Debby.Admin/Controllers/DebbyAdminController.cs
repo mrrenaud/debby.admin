@@ -1,7 +1,7 @@
 ﻿using Debby.Admin.Services.Interfaces;
 using Debby.Admin.ViewModels;
 using Microsoft.AspNet.Mvc;
-using System.Linq;
+using Microsoft.AspNet.Mvc.ModelBinding;
 using System.Threading.Tasks;
 
 namespace Debby.Admin.Controllers
@@ -49,6 +49,13 @@ namespace Debby.Admin.Controllers
             var createViewModel = new CreateViewModel(entity);
 
             return View("Create", createViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Create(PostCreateViewModel viewModel)
+        {
+            entityService.AddEntity(viewModel.EntityName, viewModel.Data);
+            return RedirectToAction("List", new { entityName = viewModel.EntityName});
         }
     }
 }

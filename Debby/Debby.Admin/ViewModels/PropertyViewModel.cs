@@ -1,6 +1,4 @@
-﻿using Debby.Admin.Core;
-using Debby.Admin.Core.Model.Interfaces;
-using System;
+﻿using Debby.Admin.Core.Model.Interfaces;
 
 namespace Debby.Admin.ViewModels
 {

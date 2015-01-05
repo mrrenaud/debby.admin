@@ -1,9 +1,8 @@
 ﻿using Debby.Admin.Core.Model.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Debby.Admin.Core
+namespace Debby.Admin.Core.Model
 {
     public class EntityType : IEntityType
     {

@@ -1,4 +1,5 @@
-﻿using Debby.Admin.Core.Model.Interfaces;
+﻿using Debby.Admin.Core.Model;
+using Debby.Admin.Core.Model.Interfaces;
 using System;
 
 namespace Debby.Admin.Core.Extensions

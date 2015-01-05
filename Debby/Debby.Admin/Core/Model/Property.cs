@@ -1,7 +1,7 @@
 ﻿using Debby.Admin.Core.Model.Interfaces;
 using System;
 
-namespace Debby.Admin.Core
+namespace Debby.Admin.Core.Model
 {
     public class Property : IProperty
     {

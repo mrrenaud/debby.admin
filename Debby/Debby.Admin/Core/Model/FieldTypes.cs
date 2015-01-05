@@ -1,6 +1,5 @@
-﻿using System;
-
-namespace Debby.Admin.Core
+﻿
+namespace Debby.Admin.Core.Model
 {
     public enum FieldTypes
     {

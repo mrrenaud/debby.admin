@@ -23,11 +23,16 @@
     </ul>
 
     <div class="properties">
-        @foreach (var prop in Model.Properties)
-        {
-            <div class="row item">
-                @Component.Invoke("InputField", prop)
-            </div>
-        }
+        <form method="post">
+            @foreach (var prop in Model.Properties)
+            {
+                <div class="row item">
+                    @Component.Invoke("InputField", prop)
+                </div>
+            }
+
+            <input type="hidden" name="EntityName" value="@Model.Entity.Name" />
+            <input type="submit" />
+        </form>
     </div>
 </div>

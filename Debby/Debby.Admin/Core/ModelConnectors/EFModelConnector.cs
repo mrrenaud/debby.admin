@@ -1,11 +1,13 @@
-﻿using Debby.Admin.Core.Model.Interfaces;
+﻿using Debby.Admin.Core.Model;
+using Debby.Admin.Core.Model.Interfaces;
+using Debby.Admin.Core.ModelConnectors.Interfaces;
 using Microsoft.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Debby.Admin.Core.Model
+namespace Debby.Admin.Core.ModelConnectors
 {
     public class EFModelConnector<TContext> : IModelConnector where TContext : DbContext
     {
@@ -22,7 +24,8 @@ namespace Debby.Admin.Core.Model
         {
             var entity = DebbyAdmin.Entities.FirstOrDefault(e => e.Name == entityName);
             if (entity == null)
-                throw new ArgumentException("The provided Entity Name doesn't exist : {0}", entityName);
+                throw new ArgumentException(
+                    String.Format("The provided Entity Name doesn't exist : {0}", entityName));
 
             return GetEntityType(entity);
         }
@@ -43,7 +46,6 @@ namespace Debby.Admin.Core.Model
             return entityType;
         }
 
-
         public async Task<IList<dynamic>> RetrieveRecords<T>() where T : class
         {
             var dbSet = context.Set<T>();
@@ -54,6 +56,17 @@ namespace Debby.Admin.Core.Model
                 data.Add(entity);
 
             return data;
+        }
+
+        public async Task<dynamic> AddRecord<T>(dynamic data) where T : class
+        {
+            T obj = data;
+
+            await context.Set<T>().AddAsync(obj);
+
+            await context.SaveChangesAsync();
+
+            return obj;
         }
     }
 }

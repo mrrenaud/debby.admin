@@ -8,5 +8,6 @@ namespace Debby.Admin.Services.Interfaces
     {
         Task<RecordsViewModel> GetRecords(IEntityType entity, int page, int take);
         IEntityType GetEntity(string entityName);
+        Task<dynamic> AddEntity(string entity, dynamic data);
     }
 }
