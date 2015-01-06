@@ -10,6 +10,6 @@ namespace Debby.Admin.Core.ModelConnectors.Interfaces
         IEntityType GetEntityType(Type type);
         IEntityType GetEntityType(string entityName);
         Task<IList<dynamic>> RetrieveRecords<T>() where T : class;
-        Task<dynamic> AddRecord<T>(dynamic data) where T : class;
+        Task<dynamic> AddRecord<T>(IDictionary<string, object> data) where T : class;
     }
 }

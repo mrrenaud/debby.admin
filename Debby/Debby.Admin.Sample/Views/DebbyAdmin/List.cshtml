@@ -16,35 +16,42 @@
     </ol>
 
     <ul class="nav nav-tabs">
-        <li role="presentation" class="active"><a href="">List</a></li>
-        <li role="presentation"><a href="~/debbyadmin/@Model.Entity.Name/create">Create</a></li>
+        <li role="presentation" class="active">
+            <a href="">
+                <i class="glyphicon glyphicon-list"></i> List
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="~/debbyadmin/@Model.Entity.Name/create">
+                <i class="glyphicon glyphicon-plus"></i> Create
+            </a>
+        </li>
         <li role="presentation"><a href="#">Blabla</a></li>
     </ul>
 
     <table class="table table-striped">
         <thead>
             <tr>
-                <th class="model-name">Model Name</th>
-                <th class="last-used">Last used</th>
-                <th class="records">Records</th>
-                <th class="shrink controls"></th>
+                @{
+                    foreach (var prop in Model.Entity.Properties)
+                    {
+                        <th>@prop.Name</th>
+                    }
+                }
             </tr>
         </thead>
         <tbody>
             @{
-                foreach (var entity in Model.Records.Data)
+                foreach (var row in Model.Records.Data)
                 {
                     <tr>
-                        <td>
-                            <span>
-                                <a href="~/debbyadmin/">
-                                    @*@entity.Name*@
-                                    coucou
-                                </a>
-                            </span>
-                        </td>
-                        <td></td>
-                        <td><span class="badge">0</span></td>
+                        @foreach (var prop in Model.Entity.Properties)
+                        {
+                            var data = row.Data;
+                            var type = data.GetType();
+                            var dataProp = type.GetProperty(prop.Name);
+                            <td>@dataProp.GetValue(data)</td>
+                        }
                     </tr>
                 }
             }

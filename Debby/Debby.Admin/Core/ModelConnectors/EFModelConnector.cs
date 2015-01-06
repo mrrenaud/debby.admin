@@ -1,4 +1,5 @@
-﻿using Debby.Admin.Core.Model;
+﻿using Debby.Admin.Core.Extensions;
+using Debby.Admin.Core.Model;
 using Debby.Admin.Core.Model.Interfaces;
 using Debby.Admin.Core.ModelConnectors.Interfaces;
 using Microsoft.Data.Entity;
@@ -58,13 +59,13 @@ namespace Debby.Admin.Core.ModelConnectors
             return data;
         }
 
-        public async Task<dynamic> AddRecord<T>(dynamic data) where T : class
+        public async Task<dynamic> AddRecord<T>(IDictionary<string, object> data) where T : class
         {
-            T obj = data;
+            T obj = data.FromDynamic<T>();
 
             await context.Set<T>().AddAsync(obj);
 
-            await context.SaveChangesAsync();
+            var result = await context.SaveChangesAsync();
 
             return obj;
         }

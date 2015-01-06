@@ -47,7 +47,7 @@ namespace Debby.Admin.Services
                 recordsViewModel.Data.Add(new EntityRowData(row));
             }
 
-            return new RecordsViewModel();
+            return recordsViewModel;
         }
     }
 }

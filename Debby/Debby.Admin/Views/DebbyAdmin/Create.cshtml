@@ -17,17 +17,30 @@
     </ol>
 
     <ul class="nav nav-tabs">
-        <li role="presentation"><a href=".">List</a></li>
-        <li role="presentation" class="active"><a href="">Create</a></li>
+        <li role="presentation">
+            <a href=".">
+                <i class="glyphicon glyphicon-list"></i> List
+            </a>
+        </li>
+        <li role="presentation" class="active">
+            <a href="">
+                <i class="glyphicon glyphicon-plus"></i> Create
+            </a>
+        </li>
         <li role="presentation"><a href="#">Blabla</a></li>
     </ul>
 
     <div class="properties">
-        @foreach (var prop in Model.Properties)
-        {
-            <div class="row item">
-                @Component.Invoke("InputField", prop)
-            </div>
-        }
+        <form method="post">
+            @foreach (var prop in Model.Properties)
+            {
+                <div class="row item">
+                    @Component.Invoke("InputField", prop)
+                </div>
+            }
+
+            <input type="hidden" name="EntityName" value="@Model.Entity.Name" />
+            <input type="submit" />
+        </form>
     </div>
 </div>

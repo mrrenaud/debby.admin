@@ -8,7 +8,7 @@ namespace Debby.Admin.Core.ModelConnectors
 {
     public class DefaultModelConnector : IModelConnector
     {
-        public Task<dynamic> AddRecord<T>(dynamic data) where T : class
+        public Task<dynamic> AddRecord<T>(IDictionary<string, object> data) where T : class
         {
             throw new NotImplementedException();
         }
