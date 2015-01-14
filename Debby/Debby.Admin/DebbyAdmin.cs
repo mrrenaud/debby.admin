@@ -1,5 +1,6 @@
-﻿using Debby.Admin.Core.Model;
-using Debby.Admin.Core.Model.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using Debby.Admin.Core.GenericControllers;
 using Debby.Admin.Core.ModelBinders;
 using Debby.Admin.Core.ModelConnectors;
 using Debby.Admin.Core.ModelConnectors.Interfaces;
@@ -12,8 +13,6 @@ using Microsoft.AspNet.Mvc.Routing;
 using Microsoft.AspNet.Routing;
 using Microsoft.Framework.ConfigurationModel;
 using Microsoft.Framework.DependencyInjection;
-using System;
-using System.Collections.Generic;
 
 namespace Debby.Admin
 {
@@ -87,6 +86,10 @@ namespace Debby.Admin
                 options.ModelBinders.Add(typeof(DynamicModelBinder));
             });
 
+            services.AddTransient<IActionDiscoveryConventions, GenericActionDiscoveryConventions>();
+            services.AddTransient<INestedProvider<ActionInvokerProviderContext>, GenericControllerActionInvokerProvider>();
+            services.AddTransient<IControllerFactory, DebbyControllerFactory>();
+
             return services;
         }
 
@@ -100,6 +103,8 @@ namespace Debby.Admin
 
     public static class DebbyAdmin
     {
+        private const string ControllerName = "GenericController`1";
+
         public static IList<Type> Entities { get; set; }
 
         static DebbyAdmin()
@@ -117,43 +122,43 @@ namespace Debby.Admin
             routes.MapRoute(
                 name: "DebbyAdminLogout",
                 template: prefix + "/Logout",
-                defaults: new { controller = "DebbyAdmin", action = "Logout" }
+                defaults: new { controller = ControllerName, action = "Logout" }
             );
 
             routes.MapRoute(
                 name: "DebbyAdminCreate",
                 template: prefix + "/{entityName}/Create",
-                defaults: new { controller = "DebbyAdmin", action = "Create" }
+                defaults: new { controller = ControllerName, action = "Create" }
             );
 
             routes.MapRoute(
                 name: "DebbyAdminEdit",
                 template: prefix + "/{entityName}/Edit/{key}",
-                defaults: new { controller = "DebbyAdmin", action = "Edit" }
+                defaults: new { controller = ControllerName, action = "Edit" }
             );
 
             routes.MapRoute(
                 name: "DebbyAdminDelete",
                 template: prefix + "/{entityName}/Delete/{key}",
-                defaults: new { controller = "DebbyAdmin", action = "Delete" }
+                defaults: new { controller = ControllerName, action = "Delete" }
             );
 
             routes.MapRoute(
                 name: "DebbyAdminGroup",
                 template: prefix + "/{groupName}/Group",
-                defaults: new { controller = "DebbyAdmin", action = "Group" }
-            );
-
-            routes.MapRoute(
-                name: "DebbyAdminChanges",
-                template: prefix + "/{entityName}/Changes/{page}",
-                defaults: new { controller = "DebbyAdmin", action = "Changes", page = 1 }
+                defaults: new { controller = ControllerName, action = "Group" }
             );
 
             routes.MapRoute(
                 name: "DebbyAdminList",
                 template: prefix + "/{entityName}/{page}",
-                defaults: new { controller = "DebbyAdmin", action = "List", page = 1 }
+                defaults: new { controller = ControllerName, action = "List", page = 1 }
+            );
+
+            routes.MapRoute(
+                name: "DebbyAdminChanges",
+                template: prefix + "/{entityName}/Changes/{page}",
+                defaults: new { controller = ControllerName, action = "Changes", page = 1 }
             );
 
             routes.MapRoute(

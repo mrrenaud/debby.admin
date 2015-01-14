@@ -12,13 +12,13 @@ namespace Debby.Admin.Core.ModelConnectors
 {
     public class EFModelConnector<TContext> : IModelConnector where TContext : DbContext
     {
-        private TContext context;
-        private Microsoft.Data.Entity.Metadata.IModel model;
+        private readonly TContext _context;
+        private readonly Microsoft.Data.Entity.Metadata.IModel _model;
 
         public EFModelConnector(TContext context)
         {
-            this.context = context;
-            this.model = context.Model;
+            _context = context;
+            _model = context.Model;
         }
 
         public IEntityType GetEntityType(string entityName)
@@ -35,12 +35,15 @@ namespace Debby.Admin.Core.ModelConnectors
         {
             var entityType = new EntityType(type);
 
-            var efEntityType = model.GetEntityType(type);
+            var efEntityType = _model.GetEntityType(type);
             foreach (var prop in efEntityType.Properties)
             {
-                var property = new Property(entityType, prop.Name, prop.PropertyType);
-                property.IsNullable = prop.IsNullable;
-                property.IsReadOnly = prop.IsReadOnly;
+                var property = new Property(entityType, prop.Name, prop.PropertyType)
+                {
+                    IsNullable = prop.IsNullable,
+                    IsReadOnly = prop.IsReadOnly
+                };
+
                 entityType.AddProperty(property);
             }
 
@@ -49,23 +52,19 @@ namespace Debby.Admin.Core.ModelConnectors
 
         public async Task<IList<dynamic>> RetrieveRecords<T>() where T : class
         {
-            var dbSet = context.Set<T>();
+            var dbSet = _context.Set<T>();
             var entities = await dbSet.ToListAsync();
 
-            var data = new List<dynamic>();
-            foreach (var entity in entities)
-                data.Add(entity);
-
-            return data;
+            return entities.Cast<dynamic>().ToList();
         }
 
         public async Task<dynamic> AddRecord<T>(IDictionary<string, object> data) where T : class
         {
-            T obj = data.FromDynamic<T>();
+            var obj = data.FromDynamic<T>();
 
-            await context.Set<T>().AddAsync(obj);
+            await _context.Set<T>().AddAsync(obj);
 
-            var result = await context.SaveChangesAsync();
+            var result = await _context.SaveChangesAsync();
 
             return obj;
         }
