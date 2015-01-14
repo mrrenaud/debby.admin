@@ -1,4 +1,7 @@
 ﻿using System;
+using Debby.Admin.Core.ModelConnectors;
+using Debby.Admin.Sample.Models;
+using Debby.Admin.Sample.Models.Northwind;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Diagnostics;
 using Microsoft.AspNet.Diagnostics.Entity;
@@ -8,13 +11,7 @@ using Microsoft.AspNet.Routing;
 using Microsoft.Framework.ConfigurationModel;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
-using Debby.Admin.Sample.Models;
-using Debby.Admin.Sample.Models.Northwind;
 using Microsoft.Framework.Logging.Console;
-using Debby.Admin.Core.Model;
-using Debby.Admin;
-using Debby.Admin.Core.ModelConnectors;
-using Microsoft.AspNet.Mvc;
 
 namespace Debby.Admin.Sample
 {

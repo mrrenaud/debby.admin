@@ -1,18 +1,17 @@
-﻿using Debby.Admin.Services.Interfaces;
+﻿using System.Threading.Tasks;
+using Debby.Admin.Services.Interfaces;
 using Debby.Admin.ViewModels;
 using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.ModelBinding;
-using System.Threading.Tasks;
 
 namespace Debby.Admin.Controllers
 {
     public class DebbyAdminController : Controller
     {
-        private IEntityService entityService;
+        private readonly IEntityService _entityService;
 
         public DebbyAdminController(IEntityService entityService)
         {
-            this.entityService = entityService;
+            _entityService = entityService;
         }
 
         public ViewResult Index()
@@ -20,42 +19,9 @@ namespace Debby.Admin.Controllers
             var viewModel = new IndexViewModel();
 
             foreach (var entity in DebbyAdmin.Entities)
-                viewModel.Entities.Add(entityService.GetEntity(entity.Name));
+                viewModel.Entities.Add(_entityService.GetEntity(entity.Name));
 
             return View(viewModel);
-        }
-
-        public async Task<ViewResult> List(string entityName)
-        {
-            var entity = entityService.GetEntity(entityName);
-            var pagedRecords = await entityService.GetRecords(entity, 1, 20);
-
-            var listViewModel = new ListViewModel()
-            {
-                Entity = entity,
-                Records = pagedRecords
-            };
-
-            return View("List", listViewModel);
-        }
-
-        public ViewResult Create(string entityName)
-        {
-            var entity = entityService.GetEntity(entityName);
-
-            if (entity == null)
-                return View("notfound");
-
-            var createViewModel = new CreateViewModel(entity);
-
-            return View("Create", createViewModel);
-        }
-
-        [HttpPost]
-        public ActionResult Create(PostCreateViewModel viewModel)
-        {
-            entityService.AddEntity(viewModel.EntityName, viewModel.Data);
-            return RedirectToAction("List", new { entityName = viewModel.EntityName});
         }
     }
 }

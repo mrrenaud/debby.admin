@@ -1,8 +1,7 @@
-﻿using Debby.Admin.Core;
-using Debby.Admin.Core.Model;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Debby.Admin.Core;
 using Debby.Admin.Core.Model.Interfaces;
-using System;
-using System.Collections.Generic;
 
 namespace Debby.Admin.ViewModels
 {
@@ -14,6 +13,13 @@ namespace Debby.Admin.ViewModels
         public RecordsViewModel()
         {
             Data = new List<EntityRowData>();
+        }
+
+        public RecordsViewModel(IEntityType entityType, IEnumerable<dynamic> data)
+        {
+            EntityType = entityType;
+
+            Data = data.Select(x => new EntityRowData(x)).ToList();
         }
     }
 }

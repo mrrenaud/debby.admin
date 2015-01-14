@@ -1,53 +1,36 @@
-﻿using Debby.Admin.Core;
+﻿using System.Threading.Tasks;
 using Debby.Admin.Core.Model.Interfaces;
+using Debby.Admin.Core.ModelConnectors.Interfaces;
 using Debby.Admin.Services.Interfaces;
 using Debby.Admin.ViewModels;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Threading.Tasks;
-using Debby.Admin.Core.ModelConnectors.Interfaces;
 
 namespace Debby.Admin.Services
 {
     public class EntityService : IEntityService
     {
-        private IModelConnector modelConnector;
+        private readonly IModelConnector _modelConnector;
 
         public EntityService(IModelConnector modelConnector)
         {
-            this.modelConnector = modelConnector;
-        }
-
-        public Task<dynamic> AddEntity(string entityName, dynamic data)
-        {
-            var entity = modelConnector.GetEntityType(entityName); ;
-
-            MethodInfo method = modelConnector.GetType().GetMethod("AddRecord");
-            method = method.MakeGenericMethod(entity.Type);
-            return (Task<dynamic>)method.Invoke(modelConnector, new object[] { data });
+            _modelConnector = modelConnector;
         }
 
         public IEntityType GetEntity(string entityName)
         {
-            return modelConnector.GetEntityType(entityName);
+            return _modelConnector.GetEntityType(entityName);
         }
 
-        public async Task<RecordsViewModel> GetRecords(IEntityType entity, int page, int take)
+        public async Task<RecordsViewModel> GetRecords<T>(int page, int take) where T : class
         {
-            var recordsViewModel = new RecordsViewModel();
+            var data = await _modelConnector.RetrieveRecords<T>();
+            var entityType = GetEntity(typeof (T).Name);
 
-            MethodInfo method = modelConnector.GetType().GetMethod("RetrieveRecords");
-            method = method.MakeGenericMethod(entity.Type);
-            var data = await (Task<IList<dynamic>>)method.Invoke(modelConnector, new object[0]);
+            return new RecordsViewModel(entityType, data);
+        }
 
-            recordsViewModel.EntityType = modelConnector.GetEntityType(entity.Type);
-
-            foreach (var row in data)
-            {
-                recordsViewModel.Data.Add(new EntityRowData(row));
-            }
-
-            return recordsViewModel;
+        public Task<dynamic> AddEntity<T>(dynamic data) where T : class
+        {
+            return _modelConnector.AddRecord<T>(data);
         }
     }
 }
